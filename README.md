@@ -1,50 +1,37 @@
-# BizeoEthernet Library
-##### Interfaces to the [Bizeo](http://bizeo.com.au/) web services via simple HTTP calls. Requires an arduino, the arduino IDE (version 1.0 or later), and an ethernet shield.
+# BizeoWiFly Library
+##### Interfaces to the [Bizeo](http://bizeo.com.au/) web services via simple HTTP calls. Requires an arduino, the arduino IDE (version 1.0 or later), and a WiFly shield from Sparkfun (or Little Bird Electronics).
 
-This library takes away all the hassle of working with the Bizeo web services with an arduino by tacking on to the built-in Ethernet library. Feel free to browse the source code to see how they are called and parsed. An overview of all the available web services can be found [here](http://bizeocloudws.cloudapp.net/PublicWS.asmx).
+This library takes away all the hassle of working with the Bizeo web services with an arduino by tacking on to the WiFly library. Feel free to browse the source code to see how they are called and parsed. An overview of all the available web services can be found [here](http://bizeocloudws.cloudapp.net/PublicWS.asmx).
 
 This library implements all available HTTP methods (GET, POST and SOAP). If the web service functions are called without specifying which method to use, the GET method is used. This is because it sends and receives the least amount of data, so can speed up web interaction.
 
-You cannot use this library and the equivalent BizeoWiFly library at the same time. You can use other ethernet clients, but the Bizeo library declares one on creation, so there will only be 3 available for general use.
-
-## Todo
-* Create similar library for WiFly.
-* Include example code for internet retries and error checking.
+You cannot use this library and the equivalent [BizeoEthernet](https://github.com/tobylockley/BizeoEthernet) library at the same time.
 
 ## Installation
-Download the library as a zip (button above). Copy the folder in the zip to your arduino libraries folder *<strong>"...ArduinoSketchbook/libraries/"</strong>* and rename to *<strong>BizeoEthernet</strong>*.
+Download the library as a zip (button above). Copy the folder in the zip to your arduino libraries folder *<strong>"...ArduinoSketchbook/libraries/"</strong>* and rename to *<strong>BizeoWiFly</strong>*.
 You may have to create the libraries folder. Sketchbook location can be found in the arduino IDE preferences. Examples:
 
-* Windows: "My Documents\Arduino\libraries\BizeoEthernet\*\<source_files\>*"
-* Mac: "~/Documents/Arduino/libraries/BizeoEthernet/*\<source_files\>*"
+* Windows: "My Documents\Arduino\libraries\BizeoWiFly\*\<source_files\>*"
+* Mac: "~/Documents/Arduino/libraries/BizeoWiFly/*\<source_files\>*"
 
 ## Usage
 First, you must include all relevant library files:
 
 ````
 #include <SPI.h>
-#include <Ethernet.h>
-#include <BizeoEthernet.h>
+#include <WiFly.h>
+#include <BizeoWiFly.h>
 ````
 
-Then, call Bizeo.begin in the setup function:
+Then, call Bizeo.begin in the setup function: 
+**NOTE: If the WiFly does not associate with the specified network, it will enter an endless retry loop. Diagnose by setting debug level before calling begin.**
 
 ````c
 void setup()
 {
-    if (!Bizeo.begin()) {  // Uses default MAC [DE:AD:BE:EF:FE:00]
-      // Handle failure
-    }
-}
-````
-
-If more than one arduino is being used on the network, specify separate MAC addresses with:
-
-````c
-byte mac_address[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x01 };
-
-if (!Bizeo.begin(mac_address)) {
-    // Handle failure
+    String mySSID = "ssid_name";
+    String myPASSPHRASE = "secret_passphrase";
+    Bizeo.begin(mySSID, myPASSPHRASE));
 }
 ````
 
@@ -69,14 +56,14 @@ Full examples can be seen in **File > Examples > BizeoEthernet**.
 --------------------------------
 
 ````c
-int begin()
-int begin(uint8_t *mac_address)
+int begin(String ssid, String passphrase)
 ````
 
-Initializes the Bizeo library and ethernet shield. When no MAC address is given, it will use the default of ``DE:AD:BE:EF:FE:00``.
+Initializes the Bizeo library and WiFly shield. Must provide a valid SSID and passphrase.
 
 ##### *Input*
-* ``mac_address``  --  Pointer to an array of 6 bytes respresenting a mac address (see [usage](https://github.com/tobylockley/BizeoEthernet#usage))
+* ``ssid``  --  String representing the name of the wireless network
+* ``passphrase``  --  secret passphrase to use
 
 ##### *Output*
 * ``1``  --  Succeeded to initialize ethernet shield and obtain IP address
