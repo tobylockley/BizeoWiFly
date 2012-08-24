@@ -13,7 +13,7 @@
 #include <WProgram.h>
 #endif
 
-#include <Ethernet.h>
+#include <WiFly.h>
 
 // Used for determining which HTTP method to use
 enum HTTP_METHOD {
@@ -24,14 +24,13 @@ enum HTTP_METHOD {
 
 class BizeoClass {
 private:
-    EthernetClient _client;
+    WiFlyClient _client;
     unsigned int _debugLevel;
     String parseXML(String searchStr);
 
 public:
     BizeoClass() { _debugLevel = 0; }
-    int begin();
-    int begin(uint8_t *mac_address);
+    int begin(String ssid, String passphrase);
     void setDebugLevel(int level);
     // Main usage functions. When no HTTP_METHOD is specified,
     // the default is to use GET

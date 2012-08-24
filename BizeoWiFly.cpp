@@ -4,33 +4,30 @@
  * All rights reserved.
  */
 
-#include "BizeoEthernet.h"
+#include "BizeoWiFly.h"
 
 #define BIZEO_WS_DOMAIN   "bizeocloudws.cloudapp.net"
 #define BIZEO_WS_URI      "/PublicWS.asmx"
 #define BIZEO_TIMEOUT     1000 * 2  // Timeout (ms) for an active connection
 
-int BizeoClass::begin()
+int BizeoClass::begin(String ssid, String passphrase)
 {
-    uint8_t defaultMac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x00 };
-    return begin(defaultMac);
-}
-
-int BizeoClass::begin(uint8_t *macAddress)
-{
-    bool test = Ethernet.begin(macAddress);
-    if (test == 1) {
+    int returnVal;
+    WiFly.begin();
+    
+    if (WiFly.join(ssid, passphrase)) {
         if (_debugLevel >= 1) {
-            Serial.print(F("Bizeo successfully initialized ethernet with IP: "));
-            Serial.println(Ethernet.localIP());
+            Serial.print(F("Bizeo successfully initialized WiFly shield."));
         }
+        returnVal = 1;
     }
     else {
         if (_debugLevel >= 1) {
-            Serial.println(F("Bizeo failed to attach ethernet shield."));
+            Serial.println(F("Wifi association failed (check wifi details)."));
         }
+        returnVal = 0;
     }
-    return test;
+    return returnVal;
 }
 
 void BizeoClass::setDebugLevel(int level)
