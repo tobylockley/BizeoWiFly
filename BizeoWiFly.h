@@ -30,7 +30,7 @@ private:
 
 public:
     BizeoClass() { _debugLevel = 0; }
-    int begin(String ssid, String passphrase);
+    int begin(const char* ssid, const char* passphrase);
     void setDebugLevel(int level);
     // Main usage functions. When no HTTP_METHOD is specified,
     // the default is to use GET

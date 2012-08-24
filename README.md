@@ -1,5 +1,5 @@
 # BizeoWiFly Library
-##### Interfaces to the [Bizeo](http://bizeo.com.au/) web services via simple HTTP calls. Requires an arduino, the arduino IDE (version 1.0 or later), and a WiFly shield from Sparkfun (or Little Bird Electronics).
+##### Interfaces to the [Bizeo](http://bizeo.com.au/) web services via simple HTTP calls. Requires an arduino, the arduino IDE (version 1.0 or later), and a WiFly shield from Sparkfun (or Little Bird Electronics). You will also need a modified version of the [WiFly Library](https://github.com/tobylockley/WiFly).
 
 This library takes away all the hassle of working with the Bizeo web services with an arduino by tacking on to the WiFly library. Feel free to browse the source code to see how they are called and parsed. An overview of all the available web services can be found [here](http://bizeocloudws.cloudapp.net/PublicWS.asmx).
 
@@ -24,18 +24,17 @@ First, you must include all relevant library files:
 ````
 
 Then, call Bizeo.begin in the setup function: 
-**NOTE: If the WiFly does not associate with the specified network, it will enter an endless retry loop. Diagnose by setting debug level before calling begin.**
 
 ````c
 void setup()
 {
-    String mySSID = "ssid_name";
-    String myPASSPHRASE = "secret_passphrase";
-    Bizeo.begin(mySSID, myPASSPHRASE));
+    if (!Bizeo.begin("my_ssid", "secret_passphrase")) {
+        // Handle failure
+    }
 }
 ````
 
-Then, use the Bizeo web calls any time you need them:
+If it can't get past begin, increase the debug level first to diagnose the issue. Begin can also be called later in the code to reset the WiFly shield (may be needed if repeat connection errors occur). Once begun, use the Bizeo web calls any time you need them:
 
 ````c
 int status = Bizeo.getStatus(user_guid);
@@ -45,7 +44,7 @@ int update = Bizeo.updateKpi(kpi_guid, new_value);
 // Check the output to make sure it worked
 ````
 
-Occasionally, the internet requests may fail. This can be due to an unplugged wire, an ISP malfunction, or even a server error. It is a good idea to always check the output of the web service functions to make sure they succeeded, and handle the errors when they don't (retry, give a warning, etc).
+Occasionally, the internet requests may fail. This can be due to an unplugged wire, an ISP malfunction, or even a server error. It is a good idea to always check the output of the web service functions to make sure they succeeded, and handle the errors when they don't (retry, give a warning, reset, etc).
 
 Full examples can be seen in **File > Examples > BizeoEthernet**.
 

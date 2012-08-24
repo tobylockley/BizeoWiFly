@@ -1,13 +1,13 @@
 
 #include <SPI.h>
 #include <Ethernet.h>
-#include <BizeoEthernet.h>
+#include <BizeoWiFly.h>
 
 // This can be retrieved from your browser's URL when viewing Bizeo
 const char USER_GUID[]  = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX";
 
-byte mac[] = { 
-  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x01 };
+char ssid[] = "my_ssid";
+char passphrase[] = "secret_passphrase";
 
 void setup()
 {
@@ -17,7 +17,7 @@ void setup()
 
   Serial.println();
   Serial.println(F("# BIZEO EXAMPLE"));
-  Serial.println(F("# Connection: Ethernet"));
+  Serial.println(F("# Connection: WiFly shield"));
   Serial.println(F("# Function: getStatus()"));
   Serial.println(F("#"));
   Serial.println(F("# Expected results:"));
@@ -29,8 +29,8 @@ void setup()
   Serial.println(F("# -3 = Unknown error"));
   Serial.println();
 
-  Serial.println(F("Initializing ethernet..."));
-  if (!Bizeo.begin(mac)) {
+  Serial.println(F("Initializing wifi..."));
+  if (!Bizeo.begin(ssid, passphrase)) {
     Serial.println("Bizeo failed to initialize, halting.");
     for (;;)
       ;  // Halt
@@ -55,9 +55,9 @@ void setup()
   Serial.print(F("returned: "));
   Serial.println(bizeostatus);
 
-  Serial.print("\r\nCalling Bizeo.getStatus() with SOAP method..."));
+  Serial.print(F("\r\nCalling Bizeo.getStatus() with SOAP method..."));
   bizeostatus = Bizeo.getStatus(SOAP, USER_GUID);
-  Serial.print("returned: "));
+  Serial.print(F("returned: "));
   Serial.println(bizeostatus);
   
   Serial.println(F("\r\n### END ###"));

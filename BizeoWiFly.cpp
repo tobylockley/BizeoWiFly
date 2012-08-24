@@ -10,7 +10,7 @@
 #define BIZEO_WS_URI      "/PublicWS.asmx"
 #define BIZEO_TIMEOUT     1000 * 2  // Timeout (ms) for an active connection
 
-int BizeoClass::begin(String ssid, String passphrase)
+int BizeoClass::begin(const char* ssid, const char* passphrase)
 {
     int returnVal;
     WiFly.begin();
