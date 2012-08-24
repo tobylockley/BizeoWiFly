@@ -1,0 +1,25 @@
+#######################################
+# Syntax Coloring Map For Bizeo
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Bizeo		KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin		KEYWORD2
+setDebugLevel	KEYWORD2
+getStatus	KEYWORD2
+updateKpi	KEYWORD2
+pub_getStatus	KEYWORD2
+pub_updateKpi	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
