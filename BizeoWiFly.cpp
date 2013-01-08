@@ -6,8 +6,8 @@
 
 #include "BizeoWiFly.h"
 
-#define BIZEO_WS_DOMAIN   "dmsbizeo.cloudapp.net"
-#define BIZEO_TIMEOUT     1000  // Timeout (ms) for an active connection
+#define BIZEO_WS_DOMAIN   "bizeo.com.au"
+#define BIZEO_TIMEOUT     (1000 * 15)  // Timeout (ms) for an active connection
 
 int BizeoClass::begin(const char* ssid, const char* passphrase)
 {
@@ -15,13 +15,13 @@ int BizeoClass::begin(const char* ssid, const char* passphrase)
     WiFly.begin();
     
     if (WiFly.join(ssid, passphrase)) {
-        if (_debugLevel >= 1) {
+        if (_debugLevel >= 2) {
             Serial.print(F("Bizeo successfully initialized WiFly shield."));
         }
         returnVal = 1;
     }
     else {
-        if (_debugLevel >= 1) {
+        if (_debugLevel >= 2) {
             Serial.println(F("Wifi association failed (check wifi details)."));
         }
         returnVal = 0;

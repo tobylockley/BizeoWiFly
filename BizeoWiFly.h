@@ -24,8 +24,8 @@ private:
 
 public:
     BizeoClass() { _debugLevel = 0; }
-    void setDebugLevel(int level);
     int begin(const char* ssid, const char* passphrase);
+    void setDebugLevel(int level);
     int getStatus(String userGuid);
     int updateKpi(String kpiGuid, int value);
     int updateKpi(String kpiGuid, String value);
